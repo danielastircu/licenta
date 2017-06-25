@@ -21,9 +21,9 @@ class GoogleConnection {
 		$config['authHttpHandler'] = $handler;
 
 		$vision              = new VisionClient( $config );
-		$familyPhotoResource = fopen( $imagePath, 'r' );
+		$photoResource = fopen( $imagePath, 'r' );
 
-		$image = $vision->image( $familyPhotoResource, [
+		$image = $vision->image( $photoResource, [
 			'DOCUMENT_TEXT_DETECTION'
 		], [
 			'imageContext' => [

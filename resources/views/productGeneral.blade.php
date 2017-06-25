@@ -15,9 +15,9 @@
 <h4 data-toggle="collapse" data-target="#nutrition"><span
             class="glyphicon arrow glyphicon-chevron-down"></span>Nutritional
     Values
-    <button class="btn btn-primary get-data-picture btn-xs" data-forTarget="nutrition"><span
-                class="glyphicon glyphicon-plus"></span>Get Data From Picture
-    </button>
+    {{--<button class="btn btn-primary get-data-picture btn-xs" data-forTarget="nutrition"><span--}}
+                {{--class="glyphicon glyphicon-plus"></span>Get Data From Picture--}}
+    {{--</button>--}}
 </h4>
 <div id="nutrition" class="collapse in">
     <div class="content-collapse">

@@ -61,8 +61,8 @@ class VisionService {
 			if ($key == 0) {
 				continue;
 			}
-			var_dump($row['description']);
-			var_dump($row['boundingPoly']['vertices']);
+//			var_dump($row['description']);
+//			var_dump($row['boundingPoly']['vertices']);
 			$data[] = $row['description'];
 		}
 

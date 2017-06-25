@@ -26,7 +26,8 @@ var App = {
                     targets: 2,
                     orderable: false
                 },
-            ]
+            ],
+            "order": [[0, "desc"]]
         });
     },
 
@@ -81,10 +82,27 @@ var App = {
         });
     },
 
+    viewProductModal: function (id) {
+        $.ajax({
+            type: "GET",
+            url: 'get-view-product-modal',
+            data: {
+                id: id
+            },
+            success: App.viewProductModalSuccess,
+            error: App.generalError
+        });
+    },
+
     editProductModalSuccess: function (data) {
         $('#editProductModal').replaceWith(data);
         PictureCrop.init();
         $('#editProductModal').modal('show');
+    },
+
+    viewProductModalSuccess: function (data) {
+        $('#viewProductModal').replaceWith(data);
+        $('#viewProductModal').modal('show');
     },
 
     editProduct: function (id) {
@@ -145,6 +163,11 @@ $(document).on('click', '.data-table-actions.delete', function () {
 $(document).on('click', '.data-table-actions.edit', function () {
     var id = $(this).attr('data-id');
     App.editProductModal(id);
+});
+
+$(document).on('click', '.data-table-actions.view', function () {
+    var id = $(this).attr('data-id');
+    App.viewProductModal(id);
 });
 
 $(document).on('click', '.get-data-picture', function (e) {

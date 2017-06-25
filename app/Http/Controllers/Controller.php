@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Domain\Services\LanguageService;
 use App\Domain\Services\ProductService;
+use App\Domain\Services\ResultEnhancementService;
 use App\Domain\Services\VisionService;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Facades\Config;
@@ -19,15 +20,18 @@ class Controller extends BaseController {
 	public $languageService;
 	public $productService;
 	public $visionService;
+	public $enhancementService;
 
 	public function __construct(
 		LanguageService $languageService,
 		ProductService $productService,
-		VisionService $visionService
+		VisionService $visionService,
+		ResultEnhancementService $enhancementService
 	) {
-		$this->languageService = $languageService;
-		$this->productService  = $productService;
-		$this->visionService   = $visionService;
+		$this->languageService    = $languageService;
+		$this->productService     = $productService;
+		$this->visionService      = $visionService;
+		$this->enhancementService = $enhancementService;
 	}
 
 	public function homepage() {
@@ -69,7 +73,6 @@ class Controller extends BaseController {
 
 	public function getImageData() {
 
-//		/
 		$data = Request::all();
 		$file = Request::file( 'file' );
 
@@ -80,9 +83,24 @@ class Controller extends BaseController {
 
 		$text = $this->visionService->getFullText( $obj );
 
+
+		$text = $this->enhancementService->getFinalData( $data['target'], $text );
+
+
 		$response['target'] = $data['target'];
 		$response['text']   = $text;
 
 		return $response;
+	}
+
+	public function getViewProductModal() {
+		$idProduct = Request::get( 'id' );
+
+		$languages = Config::get( 'languages' );
+
+		$data['product']        = $this->productService->getProduct( $idProduct );
+		$data['productDetails'] = $this->productService->getProductDetailByLanguage( $idProduct, $languages );
+
+		return view( 'viewProductModal' )->with( 'data', $data )->render();
 	}
 }

@@ -46,6 +46,10 @@ Route::get( 'get-edit-product-modal', [
 	'uses' => 'Controller@getEditProductModal'
 ] );
 
+Route::get( 'get-view-product-modal', [
+	'uses' => 'Controller@getViewProductModal'
+] );
+
 Route::post( 'get-image-data', [
 	'uses' => 'Controller@getImageData'
 ] );
