@@ -115,11 +115,11 @@ var PictureCrop = {
         });
 
         $("#rotateLeft").click(function () {
-            $image.cropper("rotate", 3);
+            $image.cropper("rotate", 1);
         });
 
         $("#rotateRight").click(function () {
-            $image.cropper("rotate", -3);
+            $image.cropper("rotate", -1);
         });
 
         $("#setDrag").click(function () {

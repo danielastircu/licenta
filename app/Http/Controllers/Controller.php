@@ -78,17 +78,20 @@ class Controller extends BaseController {
 
 
 		$this->visionService->createPicture( $data, $file );
-
 		$obj = $this->visionService->getImageData( $data['id'] );
 
-		$text = $this->visionService->getFullText( $obj );
+		if ( $data['target'] == 'nutrition' ) {
+			$this->visionService->createOriginalPicture( $data, $file );
+			$originalPictureObj = $this->visionService->getOriginalImageData( $data['id'] );
+		} else {
+			$originalPictureObj = false;
+		}
 
-
-		$text = $this->enhancementService->getFinalData( $data['target'], $text );
+		$text = $this->enhancementService->getFinalData( $data['target'], $this->visionService, $obj, $originalPictureObj );
 
 
 		$response['target'] = $data['target'];
-		$response['text']   = $text;
+		$response['data']   = $text;
 
 		return $response;
 	}

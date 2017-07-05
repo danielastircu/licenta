@@ -100,3 +100,32 @@ span.blue {
     margin-right: 5px;
     top: -1px;
 }
+
+table {
+    width: 100% !important;
+    border: 1px solid #333;
+}
+
+#viewProductModal h3{
+    color: #337ab7;
+    margin-top: 45px;
+}
+
+table th, table td {
+    padding: 10px;
+    border: 1px solid #333;
+}
+
+table th {
+    /*color: #337ab7;*/
+    /*background-color: #dedede !important;*/
+}
+
+table.general td {
+    text-align: center;
+    font-weight: bold;
+}
+
+table.languages th {
+    width: 160px;
+}

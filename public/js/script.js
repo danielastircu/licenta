@@ -124,7 +124,17 @@ var App = {
     getImageDataSuccess: function (response) {
         console.log(response);
         if (response.target != 'nutrition') {
-            $("[name='" + response.target + "']").val(response.text);
+            $("[name='" + response.target + "']").val(response.data);
+        }
+        else {
+            $.each(response.data, function (key, value) {
+                if (value) {
+                    var inputTarget = "input[name='" + key + "']";
+                    $(inputTarget).val(value);
+                }
+
+            });
+
         }
     }
 

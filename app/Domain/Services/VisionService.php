@@ -40,8 +40,23 @@ class VisionService {
 		imagejpeg( $dst_image, public_path() . '/assets/uploads/final_' . $data['id'] . ".jpg" );
 	}
 
+	public function createOriginalPicture( $data, $file ) {
+		$original = 'original_' . $data['id'] . ".jpg";
+
+		$src_image = imagecreatefromjpeg( public_path() . '/assets/uploads/' . $original );
+
+		$src_image = imagerotate( $src_image, - $data['rotate'], 0 );
+
+		// Saving
+		imagejpeg( $src_image, public_path() . '/assets/uploads/original_final_' . $data['id'] . ".jpg" );
+	}
+
 	public function getImageData( $id ) {
 		return $this->googleConnection->getImageData( public_path( 'assets/uploads/final_' . $id . '.jpg' ) );
+	}
+
+	public function getOriginalImageData( $id ) {
+		return $this->googleConnection->getImageData( public_path( 'assets/uploads/original_final_' . $id . '.jpg' ) );
 	}
 
 	public function getFullText($obj)

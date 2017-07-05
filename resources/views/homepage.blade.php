@@ -45,7 +45,7 @@
 </div>
 @include('addProductModal')
 <div id="editProductModal" class="modal inmodal fade" role="dialog" aria-hidden="true"></div>
-@include('viewProductModal')
+<div id="viewProductModal" class="modal inmodal fade" role="dialog" aria-hidden="true"></div>
 <script type="text/javascript" src="{{asset('assets/jquery/jquery-3.2.1.min.js')}}"></script>
 <script type="text/javascript"
         src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
