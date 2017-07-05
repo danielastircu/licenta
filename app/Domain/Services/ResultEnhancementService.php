@@ -11,6 +11,8 @@ namespace App\Domain\Services;
 
 class ResultEnhancementService {
 
+	private $dictionary;
+
 	public function getFinalData( $target, VisionService $visionService, $obj, $originalPictureObj ) {
 
 		if ( $target == 'nutrition' ) {
@@ -27,14 +29,20 @@ class ResultEnhancementService {
 
 		$text = $this->$functionName( $text, $propriety, $language );
 
-		$text = $this->validateData( $text );
+		$text = $this->validateData( $text, $propriety, $language );
 
 		return $text;
 
 	}
 
 	public function validateData( $text, $propriety, $language ) {
-		var_dump( $text );
+
+
+		//open dictionary
+		$dictionaryPath   = storage_path( 'dictionaries/' . $propriety . strtoupper( $language ) );
+		$fileData         = file_get_contents( $dictionaryPath, 'w' );
+		$this->dictionary = $fileData ? unserialize( $fileData ) : [ ];
+
 		$data      = explode( ' ', $text );
 		$finalText = " ";
 		foreach ( $data as $key => $word ) {
@@ -63,7 +71,7 @@ class ResultEnhancementService {
 			}
 
 			//check word
-			$candidateWord = $this->compareWithExistingData( $word, $propriety, $language );
+			$candidateWord = $this->compareWithExistingData( $partialWord );
 
 			if ( $hasBracketRight ) {
 				$candidateWord .= ')';
@@ -79,19 +87,23 @@ class ResultEnhancementService {
 			$finalText .= $candidateWord . " ";
 
 		}
-		var_dump( $finalText );
-		die;
+
+
+		file_put_contents( $dictionaryPath, serialize( $this->dictionary ) );
+
+		return $finalText;
+		//save dictionary
 	}
 
-	public function compareWithExistingData( $word, $propriety, $language ) {
-		$dictionary = [ ];
-		if ( isset( $dictionary[ $word ] ) ) {
+	public function compareWithExistingData( $word ) {
+
+		if ( isset( $this->dictionary[ $word ] ) ) {
 			return $word;
 		}
 
 		$bestMatch = false;
 
-		foreach ( $dictionary as $key => $row ) {
+		foreach ( $this->dictionary as $key => $row ) {
 			$distance = $this->levenshteinDistance( $key, strtolower( $word ) );
 			if ( $distance == 1 ) {
 				return $key;
@@ -101,7 +113,8 @@ class ResultEnhancementService {
 		}
 
 		if ( ! $bestMatch ) {
-			//add word
+
+			$this->dictionary[ strtolower( $word ) ] = 1;
 
 			return $word;
 		}
